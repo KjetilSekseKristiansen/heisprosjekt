@@ -15,14 +15,6 @@ void set_delay_Then_close(int s){
 	elev_set_door_open_lamp(0);
 	set_defined_state();
 }
-
-void set_direction_down(){
-        elev_set_motor_direction(DIRN_DOWN);
-}
-void set_direction_up(){
-        elev_set_motor_direction(DIRN_UP);
-}
-
 void set_Curr_Floor_Light_Indicator(){
 	switch(elev_get_floor_sensor_signal()){ //logic for which floorlamp should be set
 		case 0: elev_set_floor_indicator(0); 
@@ -51,6 +43,7 @@ void set_defined_state(){
 void stop_button(){
 			reset_orders();
 			elev_set_motor_direction(0);// stops elevator //resets all orderlights
+			if(elev_get_floor_sensor_signal()!=-1) // opens door if stop on floor
 			if(elev_get_floor_sensor_signal()!=-1) // opens door if stop on floor
 				 elev_set_door_open_lamp(1);
 			while(1)

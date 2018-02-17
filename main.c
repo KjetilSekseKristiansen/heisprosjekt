@@ -25,9 +25,9 @@ int main() {
       if(elev_get_stop_signal())
         stop_button();
       if((elev_get_floor_sensor_signal() == 3))
-        set_direction_down();
+        elev_set_motor_direction(DIRN_DOWN);
       if (elev_get_floor_sensor_signal() == 0)
-        set_direction_up();
+         elev_set_motor_direction(DIRN_UP);
       for(int i = 0; i<4; i++){
         for(int j = 0; j<3; j++){
             if(elev_get_button_signal(j, i)){
