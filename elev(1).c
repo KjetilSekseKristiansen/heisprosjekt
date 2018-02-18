@@ -64,10 +64,8 @@ void elev_set_motor_direction(elev_motor_direction_t dirn) {
         io_write_analog(MOTOR, 0);
     } else if (dirn > 0){
         io_clear_bit(MOTORDIR);
-        io_write_analog(MOTOR, 2800);
     } else if (dirn < 0) {
         io_set_bit(MOTORDIR);
-        io_write_analog(MOTOR, 2800);
     }
 }
 
@@ -147,10 +145,11 @@ void register_order(int floor, int dir){
     order_matrix[floor][dir] = 1;
     elev_set_button_lamp(dir, floor, 1);
 }
-void reset_orders(){
-    for(int i = 0; i<4; i++)
-        for(int j = 0; j<3; j++){
-            order_matrix[i][j] = 0;
-            elev_set_button_lamp(j,i, 0);
+int get_order(int floor, int dir){
+	 return order_matrix[floor][dir];
+}
+void reset_order(int floor, int dir){
+            order_matrix[floor][dir] = 0;
+            elev_set_button_lamp(dir,floor, 0);
         }
 }

@@ -41,20 +41,27 @@ void set_defined_state(){
 	elev_set_motor_direction(DIRN_STOP);
 }
 void stop_button(){
-			reset_orders();
+		for(int i = 0; i<4; i++)
+			for(int j = 0; j<3; j++)
+				reset_orders(i, j); // removes all orders and clears all lamps
 			elev_set_motor_direction(0);// stops elevator //resets all orderlights
-			if(elev_get_floor_sensor_signal()!=-1) // opens door if stop on floor
 			if(elev_get_floor_sensor_signal()!=-1) // opens door if stop on floor
 				 elev_set_door_open_lamp(1);
 			while(1)
 				if(!elev_get_stop_signal()){
-					printf("%d\n", *check);
 					set_delay_Then_close(3);
-					break;
-				} // if stop released waits for 3 seconds then starts again
+					break; // if stop released waits for 3 seconds then continue
+				}
 }
 void delete_orders_on_current_floor(){
 	if(elev_get_floor_sensor_signal()!=-1)
-	for(int i = 0; i<3; i++)
+	for(int i = 0; i<3; i++){
+		reset_order(elev_get_floor_sensor_signal, i);
 		elev_set_button_lamp(i, elev_get_floor_sensor_signal(), 0);
+	}
+}
+void handle_orders_down(){
+}
+void handle_orders_up(){
+	
 }
