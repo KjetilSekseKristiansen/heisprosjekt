@@ -64,11 +64,19 @@ void elev_set_motor_direction(elev_motor_direction_t dirn) {
         io_write_analog(MOTOR, 0);
     } else if (dirn > 0){
         io_clear_bit(MOTORDIR);
+        io_write_analog(MOTOR,2800);
+    } else if (dirn < 0) {
+        io_set_bit(MOTORDIR);
+        io_write_analog(MOTOR,2800);
+    }
+}
+void set_direction(elev_motor_direction_t dirn) {
+     if (dirn > 0){
+        io_clear_bit(MOTORDIR);
     } else if (dirn < 0) {
         io_set_bit(MOTORDIR);
     }
 }
-
 void elev_set_door_open_lamp(int value) {
     if (value){
         io_set_bit(LIGHT_DOOR_OPEN);
@@ -143,6 +151,7 @@ void elev_set_button_lamp(elev_button_type_t button, int floor, int value) {
 }
 void register_order(int floor, int dir){
     order_matrix[floor][dir] = 1;
+    printf("registered order at %d, %d", floor, dir);
     elev_set_button_lamp(dir, floor, 1);
 }
 int get_order(int floor, int dir){
@@ -151,5 +160,4 @@ int get_order(int floor, int dir){
 void reset_order(int floor, int dir){
             order_matrix[floor][dir] = 0;
             elev_set_button_lamp(dir,floor, 0);
-        }
 }

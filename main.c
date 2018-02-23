@@ -10,21 +10,20 @@ int main() {
         return 1;
     }
 
-    int check = 0;
-    elev_set_motor_direction(0);
+    set_defined_state();
+    int order_control= 0;
     while (1) {
-      if (check == 0){
-        set_defined_state();
-        check = 1;
-    }
 	  if(elev_get_floor_sensor_signal()!=-1)
-        set_Curr_Floor_Light_Indicator();
+        elev_set_floor_indicator(elev_get_floor_sensor_signal());
       if(elev_get_stop_signal())
-        stop_button();
-      if((elev_get_floor_sensor_signal() == 3))
-        elev_set_motor_direction(DIRN_DOWN);
+        stop_sequence();
+      if((elev_get_floor_sensor_signal() == 3)){
+        set_direction(-1);
+        order_control = 1;
+      }
       if (elev_get_floor_sensor_signal() == 0){
-         elev_set_motor_direction(DIRN_UP);
+          set_direction(1);
+          order_control = 0;
 	  }
       for(int i = 0; i<4; i++){
         for(int j = 0; j<3; j++){
@@ -32,9 +31,10 @@ int main() {
                 register_order(i,j);
             }
         }
-      }        
-    }
+      }  
+     handle_orders_inside();
+      }
     return 0;
 }
 
-io_write_analog(MOTOR, 2800);
+//        io_write_analog(MOTOR,2800);

@@ -36,8 +36,7 @@ typedef enum tag_elev_motor_direction {
 */
 void elev_set_motor_direction(elev_motor_direction_t dirn);
 
-
-
+void set_direction(elev_motor_direction_t dirn);
 /**
   Turn door-open lamp on or off.
   @param value Non-zero value turns lamp on, 0 turns lamp off.
@@ -114,5 +113,5 @@ int elev_get_button_signal(elev_button_type_t button, int floor);
 void elev_set_button_lamp(elev_button_type_t button, int floor, int value);
 void elev_set_light(int floor, int button);
 void register_order(int floor, int dir);
-void reset_orders();
+void reset_order();
 #endif // #ifndef __INCLUDE_DRIVER_H__
